@@ -12,10 +12,12 @@
       stroke-width: 2;
       fill: #5aacff;
     }
+
     .main {
       margin-top: 15px;
       margin-left: 45%;
     }
+
     h2 {
       text-align: center;
     }
@@ -44,10 +46,10 @@
     d3.select(".svg").html('');
     // количество квадратов с одной стороне фигуры
     var rectNumber = parseInt(d3.select("input[name='rectNumber']")
-    .property("value"));
+      .property("value"));
     // длина стороны квадрата
     var rectSide = parseInt(d3.select("input[name='rectSide']")
-    .property("value"));
+      .property("value"));
 
     var widthWindow = window.innerWidth;
     var heightWindow = window.innerHeight;
