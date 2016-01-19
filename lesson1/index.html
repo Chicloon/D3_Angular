@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="d3.v3.min.js" charset="utf-8"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        path {
+            stroke: green;
+            stroke-width: 20;
+            stroke-linecap: round;
+            fill: none;
+            stroke-linejoin: round;
+        }
+        text {
+            text-anchor: end;
+        }
+        circle {
+            stroke: green;
+            stroke-width: 2;
+            fill: blue;
+            fill-opacity: .5;
+            stroke-dasharray: 10 5;
+        }
+        rect {
+            stroke: green;
+            stroke-width: 2;
+            fill: #5aacff;
+        }
+        g {
+        }
+        rect {
+          stroke
+        }
+    </style>
+</head>
+<body>
+
+<svg width="800" height="600">
+    <!--Реальные элементы-->
+    <circle class="circle" r="40" cx="50" cy="50"></circle>
+    <circle class="circle" r="40" cx="150" cy="50"></circle>
+    <circle class="circle" r="40" cx="250" cy="50"></circle>
+    <circle class="circle" r="40" cx="350" cy="50"></circle>
+    <circle r="30" cx="3"></circle>
+
+</svg>
+</body>
+<script>
+    // Данные в коде
+    var coords = [{
+        r: 40,
+        cx: 50,
+        cy: 50,
+    }, {
+        r: 40,
+        cx: 150,
+        cy: 50,
+    }, {
+        r: 40,
+        cx: 250,
+        cy: 50,
+    }];
+    var svg = d3.select('svg');
+    console.log(svg);
+    // Массивы реальных элементов называются выборками (selection) -> это массивы
+    var circles = svg.selectAll('circle').data(coords);
+    // var circlesss.data(coords);
+    console.log(svg);
+    console.log('circles', circles);
+    // console.log('circlesss', circlesss);
+    // 1 ситуация: реальных элементов (кружки <circle>) меньше, чем порций данных
+    // элементы, которым не хватило данных, помещаются на сцену в выборку enter
+    // Update
+    var dx=0;
+    var dy=0;
+    circles
+            .style('fill', function(d, i) { return ['gray', 'yellow', 'red'][i] })
+            .classed('one two three', true)
+            .attr('transform', function(){
+            return 'translate('+dx+','+dy+')';
+            })
+            .transition()
+            .duration(function(d, i) {
+                return (i + 1) * 300;
+            })
+            .delay(function(d, i) {
+                return i * 300;
+            })
+            .attr('transform', 'translate(500, 500)')
+         //   .delay(1500)
+            .each('end', function(){
+                console.log('Finished!');
+                d3.select(this)
+                        .transition()
+                        .duration(500)
+                        .attr('transform', 'translate(-500, -500)')
+                        .remove();
+            });
+    // Enter
+    circles.enter().append('circle')
+            .attr('r', function (d, i) {
+              console.log(d, i);
+
+                if (i === 1)
+                 return d.r * 2;
+                else
+                    return d.r;
+            })
+            .attr('cx', function (d, i) {
+                return d.cx;
+            })
+            .attr('cy', function (d, i) {
+                return d.cy;
+            });
+    // 2 ситуация: реальных элементов (кружки <circle>) больше, чем порций данных
+    // Exit
+    circles.exit()
+            .style('fill', 'green')
+            .transition()
+            .duration(2000)
+            .style('fill', '#000')
+            .attr('r', 0)
+            .remove();
+    //    for (var iii = 0; iii < circles.length; iii++) {
+    //        svg.append('circle')
+    //                .attr('r', circles[iii].r)
+    //                .attr('cx', circles[iii].cx)
+    //                .attr('cy', circles[iii].cy);
+    //    }
+</script>
+</html>
